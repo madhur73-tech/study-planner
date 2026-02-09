@@ -129,6 +129,19 @@ input {
   color:#fff;
 }
 
+/* 💬 Feedback Section */
+.feedback-title {
+  text-align:center;
+  color:#ffd369;
+  margin-top:30px;
+}
+.feedback-text {
+  text-align:center;
+  font-size:14px;
+  color:#aaa;
+  margin-bottom:15px;
+}
+
 .footer {
   text-align:center;
   margin-top:20px;
@@ -168,6 +181,24 @@ input {
     <tr><td>10:30 – 11:30</td><td><input id="main3"></td></tr>
   </table>
 
+  <hr style="margin:30px 0; border:1px dashed #ff77aa;">
+
+  <h2 class="feedback-title">💬 Share Your Feedback</h2>
+  <p class="feedback-text">Your thoughts help improve this planner 🌷</p>
+
+  <div style="display:flex; justify-content:center;">
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSenE3yRxiNh37whspF75lfle-qdAZ9Lqd2bxJ7JvWbr-3uexw/viewform?embedded=true"
+      width="100%"
+      height="850"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      style="max-width:700px; border-radius:12px;">
+      Loading…
+    </iframe>
+  </div>
+
   <div class="footer">Made with quiet care ✨</div>
 </div>
 
@@ -189,7 +220,7 @@ function toggleMessage(){
 }
 
 /* 💌 Daily Hidden Messages */
-const messages = [
+const messages=[
   "💖 Aarna, you’re doing better than you think.",
   "🌙 Even slow progress is still progress.",
   "✨ One exam, one calm step at a time.",
@@ -202,7 +233,6 @@ const messages = [
   "🌙 Be gentle with yourself tonight."
 ];
 
-/* 🧠 Exams */
 const exams=[
   {subject:"English",date:"2026-02-10"},
   {subject:"Physics",date:"2026-02-13"},
@@ -211,55 +241,47 @@ const exams=[
   {subject:"Hindi",date:"2026-03-07"}
 ];
 
-const now = new Date();
-const hour = now.getHours();
-
-/* ✅ LOCAL DATE (fix timezone issue) */
-const todayStr =
-  now.getFullYear() + "-" +
-  String(now.getMonth()+1).padStart(2,"0") + "-" +
-  String(now.getDate()).padStart(2,"0");
+const now=new Date();
+const hour=now.getHours();
+const todayStr=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
 
 document.body.classList.add(hour>=20?"night":"morning");
 
-/* Assign hidden message */
-const messageIndex = now.getDate() % messages.length;
-document.getElementById("secretMessage").innerText = messages[messageIndex];
+document.getElementById("secretMessage").innerText=messages[now.getDate()%messages.length];
 
-const todayExam = exams.find(e=>e.date===todayStr);
-const timetable = document.getElementById("timetable");
-const focus = document.getElementById("focusSubject");
-const countdown = document.getElementById("countdown");
+const todayExam=exams.find(e=>e.date===todayStr);
+const timetable=document.getElementById("timetable");
+const focus=document.getElementById("focusSubject");
+const countdown=document.getElementById("countdown");
 
 if(todayExam){
   timetable.style.display="none";
-  countdown.innerText="";
-  focus.innerText = hour < 12
-    ? `🎯 Good luck Aarna! for ${todayExam.subject} exam 💖`
-    : `🌸 ${todayExam.subject} exam is over! Just relax today 💫`;
+  focus.innerText=hour<12
+    ?`🎯 Good luck Aarna! for ${todayExam.subject} exam 💖`
+    :`🌸 ${todayExam.subject} exam is over! Just relax today 💫`;
 }else{
-  const upcoming = exams.filter(e => new Date(e.date) > now);
-  const main = upcoming[0];
-  const secondary = upcoming[1];
+  const upcoming=exams.filter(e=>new Date(e.date)>now);
+  const main=upcoming[0];
+  const secondary=upcoming[1];
 
   if(main){
-    focus.innerText = `🎯 Main Focus: ${main.subject}`;
-    const diff = Math.ceil((new Date(main.date)-now)/(1000*60*60*24));
-    countdown.innerText = `⏳ ${diff} day${diff>1?"s":""} left for ${main.subject}`;
+    focus.innerText=`🎯 Main Focus: ${main.subject}`;
+    const diff=Math.ceil((new Date(main.date)-now)/(1000*60*60*24));
+    countdown.innerText=`⏳ ${diff} day${diff>1?"s":""} left for ${main.subject}`;
 
-    main0.value = `${main.subject} – deep study`;
-    main1.value = `${main.subject} – concepts`;
-    main2.value = `${main.subject} – practice`;
-    main3.value = `${main.subject} – revision`;
+    main0.value=`${main.subject} – deep study`;
+    main1.value=`${main.subject} – concepts`;
+    main2.value=`${main.subject} – practice`;
+    main3.value=`${main.subject} – revision`;
   }
-
   if(secondary){
-    secondary0.value = `${secondary.subject} – light study`;
-    secondary1.value = `${secondary.subject} – revision`;
-    secondary2.value = `${secondary.subject} – quick notes`;
+    secondary0.value=`${secondary.subject} – light study`;
+    secondary1.value=`${secondary.subject} – revision`;
+    secondary2.value=`${secondary.subject} – quick notes`;
   }
 }
 </script>
 
 </body>
 </html>
+
